@@ -6,6 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco-Look-Wine-Demo.Web"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco-Look-Wine-Demo.Logic", "Umbraco-Look-Wine-Demo.Logic\Umbraco-Look-Wine-Demo.Logic.csproj", "{ED83E6A7-DB42-4FB4-8639-F445D12CD4E0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{ECCEED8F-CEA9-452E-B62C-3E82F28260BF}"
+	ProjectSection(SolutionItems) = preProject
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
