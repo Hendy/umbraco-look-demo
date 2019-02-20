@@ -1,5 +1,36 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.WineReviews>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
-	Layout = null;
+    Layout = "_Layout.cshtml";
+}
+
+<div class="column col-12">
+    <div class="hero hero-sm bg-dark">
+        <div class="hero-body">
+            <h1>
+                @Model.Content.Name
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="columns">
+    @foreach (var wine in Model.Content.Children)
+    {
+        var tc = (WineReview) wine;
+        @DisplayTeaser(tc)
+    }
+</div>   
+
+@helper DisplayTeaser(ContentModels.WineReview wineReview)
+{
+    <div class="column col-6 col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title h5">@wineReview.Name</div>
+                <div class="card-subtitle text-gray">@wineReview.Points / 100</div>
+            </div>
+            <div class="card-body">@wineReview.Description</div>
+            <div class="card-footer"><a class="btn btn-primary" href="@wineReview.Url">Read review</a></div>
+        </div>
+    </div>
 }

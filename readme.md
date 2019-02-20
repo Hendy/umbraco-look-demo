@@ -8,7 +8,6 @@ Umbraco-Look-Wine-Demo
 ## Develop
 
     Open 'Src/Umbraco-Look-Wine-Demo.sln'
-   
 
 ## Build
 

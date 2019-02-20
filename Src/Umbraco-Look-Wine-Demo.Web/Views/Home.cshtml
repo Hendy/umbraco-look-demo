@@ -1,0 +1,23 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Home>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "_Layout.cshtml";
+}
+
+<div class="column col-12">
+	<div class="hero hero-sm bg-dark">
+		<div class="hero-body">
+			<h1>
+				Homepage
+			</h1>
+			<h3>Pages</h3>
+			<ul>
+				@foreach (var page in Model.Content.Children)
+				{
+					<li><a href="@page.Url">@page.Name</a></li>
+				}
+			</ul>
+			
+		</div>
+	</div>
+</div>
