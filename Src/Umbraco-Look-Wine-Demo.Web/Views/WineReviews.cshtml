@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.WineReviews>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Our.Umbraco.Look
 @{
     Layout = "_Layout.cshtml";
 }
@@ -14,12 +15,20 @@
     </div>
 </div>
 <div class="columns">
-    @foreach (var wine in Model.Content.Children)
+    @LookGetAllNodes("WineReview")
+</div>
+
+@helper LookGetAllNodes(string alias)
+{
+    var query = new LookQuery();
+    query.RawQuery = "nodeTypeAlias:" + alias;
+    var results = query.Search();
+
+    foreach (var result in results.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
     {
-        var tc = (WineReview) wine;
-        @DisplayTeaser(tc)
+        @DisplayTeaser((WineReview) result)
     }
-</div>   
+}
 
 @helper DisplayTeaser(ContentModels.WineReview wineReview)
 {
