@@ -1,0 +1,83 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.WineReviews>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Our.Umbraco.Look
+@{
+    Layout = "_Layout.cshtml";
+}
+
+<div class="column col-12">
+    <div class="hero hero-sm bg-dark">
+        <div class="hero-body">
+            <h1>
+                @Model.Content.Name
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="columns">
+    @LookDoSearch()
+</div>
+
+@helper LookGetAllNodes(string alias)
+{
+    var query = new LookQuery();
+
+    var results = query.Search();
+
+    foreach (var result in results.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
+    {
+        @DisplayTeaser((WineReview) result)
+    }
+}
+
+@helper LookDoSearch()
+{
+    var alias = "wineReview";
+    var designation = HttpContext.Current.Request.QueryString["designation"];
+    var q = HttpContext.Current.Request.QueryString["q"];
+
+    var tags = new List<LookTag>();
+    if (designation != null)
+    {
+        tags.Add(new LookTag("designation:" + designation));
+    }
+   
+    var query = new LookQuery();
+
+    // need to index text
+    query.TextQuery.SearchText = q ?? string.Empty;
+
+    // if any tags, use them for the search
+    if (tags.Any())
+    {
+        query.TagQuery = new Our.Umbraco.Look.TagQuery()
+        {
+            Any = new[] { tags.ToArray() }
+        };
+    }    
+    else
+    {
+        query.RawQuery = "nodeTypeAlias:" + alias;
+    }
+    
+    var results = query.Search();
+
+    foreach (var result in results.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
+    {
+        @DisplayTeaser((WineReview) result)
+    }
+}
+
+@helper DisplayTeaser(ContentModels.WineReview wineReview)
+{
+    <div class="column col-6 col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title h5">@wineReview.Name</div>
+                <div class="card-subtitle text-gray">@wineReview.Points / 100</div>
+            </div>
+            <div class="card-body">@wineReview.Description</div>
+            <div class="card-footer"><a class="btn btn-primary" href="@wineReview.Url">Read review</a></div>
+        </div>
+    </div>
+}
