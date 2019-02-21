@@ -1,7 +1,7 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.WineReview>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
-	Layout = "_Layout.cshtml";
+  Layout = (string) ViewData["Layout"] ?? "_Layout.cshtml";
 }
 
 <div class="column col-12">

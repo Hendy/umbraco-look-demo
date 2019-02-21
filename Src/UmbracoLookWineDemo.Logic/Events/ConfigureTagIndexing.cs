@@ -6,7 +6,7 @@ using Umbraco.Web;
 
 namespace UmbracoLookWineDemo.Logic.Events
 {
-    public class ConfigureIndexing : ApplicationEventHandler
+    public class ConfigureTagIndexing : ApplicationEventHandler
     {
         /// <summary>
         /// Umbraco has started event

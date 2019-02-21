@@ -60,15 +60,20 @@
     } 
     
     // Search using "Raw Query"
+    // if (!string.IsNullOrEmpty(q))
+    // {
+    //    query.RawQuery = "description:" + q;
+    // }
     if (!string.IsNullOrEmpty(q))
     {
-        query.RawQuery = "description:" + q;
-    }  
+        query.TextQuery = new TextQuery(q, true);
+    }
     else
     {
         query.RawQuery = "nodeTypeAlias:" + alias;
     }
     
+
     var results = query.Search();
 
     foreach (var result in results.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
