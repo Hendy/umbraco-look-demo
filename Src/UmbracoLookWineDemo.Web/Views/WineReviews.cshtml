@@ -14,47 +14,56 @@
         </div>
     </div>
 </div>
-<div class="columns">
-    @LookDoSearch()
-</div>
+@SearchForm()
+@LookDoSearch()
 
-@helper LookGetAllNodes(string alias)
+@helper SearchForm()
 {
-    var query = new LookQuery();
-
-    var results = query.Search();
-
-    foreach (var result in results.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
-    {
-        @DisplayTeaser((WineReview) result)
-    }
+    <div class="column col-12">
+        <form method="get">
+            <div class="input-group">
+                <span class="input-group-addon addon-lg">Search Wine Reviews:</span>
+                <input name="q" class="form-input input-lg" type="text" placeholder="@(HttpContext.Current.Request["q"] ?? "Search")">
+                <button class="btn btn-primary input-group-btn btn-lg">Submit</button>
+            </div>
+        </form>
+    </div>
 }
 
 @helper LookDoSearch()
 {
     var alias = "wineReview";
-    var designation = HttpContext.Current.Request.QueryString["designation"];
-    var q = HttpContext.Current.Request.QueryString["q"];
+    var q = HttpContext.Current.Request["q"];
 
-    var tags = new List<LookTag>();
-    if (designation != null)
-    {
-        tags.Add(new LookTag("designation:" + designation));
-    }
-   
+    // Build Query
     var query = new LookQuery();
 
-    // need to index text
-    query.TextQuery.SearchText = q ?? string.Empty;
-
-    // if any tags, use them for the search
+    // Search using "Tags"
+    var tags = new List<LookTag>();    
+    var parameters = new List<string> {"designation", "variety", "region", "province", "country", "winery"};
+    
+    foreach (var key in parameters)
+    {
+        var value = HttpContext.Current.Request[key];
+        if (value != null)
+        {
+            tags.Add(new LookTag(key + ":" + value));
+        }
+    }
+    
     if (tags.Any())
     {
         query.TagQuery = new Our.Umbraco.Look.TagQuery()
         {
-            Any = new[] { tags.ToArray() }
+            Any = new[] { tags.ToArray() },
         };
-    }    
+    } 
+    
+    // Search using "Raw Query"
+    if (!string.IsNullOrEmpty(q))
+    {
+        query.RawQuery = "description:" + q;
+    }  
     else
     {
         query.RawQuery = "nodeTypeAlias:" + alias;
