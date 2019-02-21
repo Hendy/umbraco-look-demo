@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Our.Umbraco.Look;
 using Umbraco.Core;
 using Umbraco.Core.Models;
@@ -14,30 +13,33 @@ namespace UmbracoLookWineDemo.Logic.Events
         /// </summary>
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            LookConfiguration.TextIndexer = indexingContext => { 
-
-                // eg. if content, render page and scrape markup
-                if (!indexingContext.IsDetached && indexingContext.Item.ItemType == PublishedItemType.Content) 
-                {				
-                    // (could pass in httpContext to render page without http web request)
-                    // return string
-                }
-
-                return null; // don't index
-            };
-            
             LookConfiguration.TagIndexer = indexingContext =>
             {
                 var tags = new List<LookTag>();
 
-                if (indexingContext.Item.DocumentTypeAlias == "wineReview")
+                switch (indexingContext.Item.DocumentTypeAlias)
                 {
-                    // add tags 
-                    tags.Add(new LookTag("designation:" + indexingContext.Item.GetPropertyValue<string>("designation")));
+                    case "wineReview":
+                        tags.AddRange(PropertiesToLookTags(new List<string>{ "designation", "variety", "region", "province", "country", "winery" }, indexingContext));
+                        break;
                 }
+                
                 return tags.ToArray();
             };
-            
+        }
+
+        private List<LookTag> PropertiesToLookTags(List<string> properties, IndexingContext indexingContext)
+        {
+            var tags = new List<LookTag>();
+
+            foreach (var key in properties)
+            {
+                var value = indexingContext.Item.GetPropertyValue<string>(key);
+                if (!string.IsNullOrWhiteSpace(value))
+                    tags.Add(new LookTag(key + ":" + value));
+            }
+
+            return tags;
         }
     }
 }
