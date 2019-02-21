@@ -1,0 +1,40 @@
+﻿@using System.Collections.Specialized
+@using umbraco.providers.members
+@model Our.Umbraco.Look.LookResult
+
+@if (Model.Success)
+{
+    var pageNumber = HttpContext.Current.Request["p"] != null ? short.Parse(HttpContext.Current.Request["p"]) : 1;
+    var pageSize = HttpContext.Current.Request["s"] != null ? short.Parse(HttpContext.Current.Request["s"]) : 6;
+
+    var totalPages = (Model.TotalItemCount - 1) / pageSize + 1;
+    var i = 0;
+
+    <div class="p-centered">
+        <ul class="pagination">
+            <li class="page-item @(pageNumber == 1 ? "disabled" : null)">
+                <a href="@((pageNumber > 1) ? UrlWithPage(pageNumber - 1).ToString() : "#")" tabindex="-1">Previous</a>
+            </li>
+            @while (i < totalPages)
+            {
+                i++;
+                <li class="page-item @(i == pageNumber ? "active" : null)">
+                    <a href="@UrlWithPage(i)">@i</a>
+                </li>
+            }
+            @if (Model.TotalItemCount > (pageNumber * pageSize))
+            {
+                <li class="page-item">
+                    <a href="@UrlWithPage(pageNumber + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@helper UrlWithPage (int p) {
+    var nameValues = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+    nameValues.Set("p", p.ToString());
+    string url = Request.Url.AbsolutePath;
+    @(url + "?" + nameValues);
+}

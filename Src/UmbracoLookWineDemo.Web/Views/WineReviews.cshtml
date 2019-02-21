@@ -34,6 +34,8 @@
 {
     var alias = "wineReview";
     var q = HttpContext.Current.Request["q"];
+    var pageNumber = HttpContext.Current.Request["p"] != null ? short.Parse(HttpContext.Current.Request["p"]) : 1;
+    var pageSize = HttpContext.Current.Request["s"] != null ? short.Parse(HttpContext.Current.Request["s"]) : 6;
 
     // Build Query
     var query = new LookQuery();
@@ -75,11 +77,14 @@
     
 
     var results = query.Search();
-
-    foreach (var result in results.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
+    var pagedResults = results.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+    
+    foreach (var result in pagedResults.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
     {
         @DisplayTeaser((WineReview) result)
     }
+    
+    @Html.Partial("~/Views/Partials/Look/_Pagination.cshtml", results)
 }
 
 @helper DisplayTeaser(ContentModels.WineReview wineReview)

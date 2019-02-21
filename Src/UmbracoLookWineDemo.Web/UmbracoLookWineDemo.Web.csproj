@@ -1668,6 +1668,7 @@
     <Content Include="umbraco\Xslt\Templates\Schema2\TablePrototype.xslt" />
     <Content Include="umbraco\Xslt\Templates\Sitemap.xslt" />
     <Content Include="umbraco\Xslt\Templates\TablePrototype.xslt" />
+    <None Include="Views\Partials\Look\_Pagination.cshtml" />
     <None Include="Views\_Ajax.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <Content Include="Views\Home.cshtml" />
