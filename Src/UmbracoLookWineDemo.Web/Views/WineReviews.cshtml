@@ -41,9 +41,9 @@
     var query = new LookQuery();
 
     // Search using "Tags"
-    var tags = new List<LookTag>();    
-    var parameters = new List<string> {"designation", "variety", "region", "province", "country", "winery"};
-    
+    var tags = new List<LookTag>();
+    var parameters = new List<string> { "designation", "variety", "region", "province", "country", "winery" };
+
     foreach (var key in parameters)
     {
         var value = HttpContext.Current.Request[key];
@@ -52,24 +52,28 @@
             tags.Add(new LookTag(key + ":" + value));
         }
     }
-    
+
     if (tags.Any())
     {
         query.TagQuery = new Our.Umbraco.Look.TagQuery()
         {
-            Any = new[] { tags.ToArray() },
+            HasAllOr = new[] { tags.ToArray() }
         };
-    } 
-    
+    }
+
     // Search using "Raw Query"
-    // if (!string.IsNullOrEmpty(q))
-    // {
-    //    query.RawQuery = "description:" + q;
-    // }
     if (!string.IsNullOrEmpty(q))
     {
-        query.TextQuery = new TextQuery(q, true);
+        query.RawQuery = "description:" + q;
     }
+    // Search using "Text Query" (see logic project, and include Events\ConfigureTextIndexing.cs)
+    // if (!string.IsNullOrEmpty(q))
+    // {
+    //    query.TextQuery = new Our.Umbraco.Look.TextQuery()
+    //    {
+    //        SearchText = q
+    //    };
+    // }
     else
     {
         query.RawQuery = "nodeTypeAlias:" + alias;
