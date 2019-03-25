@@ -1,0 +1,44 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.WineReview>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+  Layout = (string) ViewData["Layout"] ?? "_Layout.cshtml";
+}
+
+<div class="column col-12">
+  <div class="hero hero-sm bg-dark">
+    <div class="hero-body">
+      <h1>
+        @Model.Content.Name
+      </h1>
+      <div class="">
+        @DisplayTag("designation", Model.Content.Designation)
+        @DisplayTag("variety", Model.Content.Variety)
+        @DisplayTag("region", Model.Content.Region)
+        @DisplayTag("province", Model.Content.Province)
+        @DisplayTag("country", Model.Content.Country)
+        @DisplayTag("winery", Model.Content.Winery)
+      </div>
+    </div>
+  </div>
+  <p>
+    @Model.Content.Description
+  </p>
+  <p>
+    @DisplayTaster()
+  </p>
+</div>
+
+@helper DisplayTag(string key, string tag)
+{
+  if (!string.IsNullOrWhiteSpace(tag))
+  {
+    <a href="../?@key=@tag" class="chip">@tag</a>
+  }
+}
+
+@helper DisplayTaster()
+{
+  var text = !string.IsNullOrWhiteSpace(Model.Content.TasterName) ? Model.Content.TasterName : Model.Content.TasterTwitter;
+  var url = !string.IsNullOrEmpty(Model.Content.TasterTwitter) ? Model.Content.TasterTwitter : "#";
+  <a href="@url.Replace("@", "https://twitter.com/")" target="_blank">@text</a>
+}

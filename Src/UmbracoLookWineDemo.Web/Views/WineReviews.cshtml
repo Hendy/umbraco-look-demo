@@ -1,0 +1,106 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.WineReviews>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Our.Umbraco.Look
+@{
+    Layout = "_Layout.cshtml";
+}
+
+<div class="column col-12">
+    <div class="hero hero-sm bg-dark">
+        <div class="hero-body">
+            <h1>
+                @Model.Content.Name
+            </h1>
+        </div>
+    </div>
+</div>
+@SearchForm()
+@LookDoSearch()
+
+@helper SearchForm()
+{
+    <div class="column col-12">
+        <form method="get">
+            <div class="input-group">
+                <span class="input-group-addon addon-lg">Search Wine Reviews:</span>
+                <input name="q" class="form-input input-lg" type="text" placeholder="@(HttpContext.Current.Request["q"] ?? "Search")">
+                <button class="btn btn-primary input-group-btn btn-lg">Submit</button>
+            </div>
+        </form>
+    </div>
+}
+
+@helper LookDoSearch()
+{
+    var alias = "wineReview";
+    var q = HttpContext.Current.Request["q"];
+    var pageNumber = HttpContext.Current.Request["p"] != null ? short.Parse(HttpContext.Current.Request["p"]) : 1;
+    var pageSize = HttpContext.Current.Request["s"] != null ? short.Parse(HttpContext.Current.Request["s"]) : 6;
+
+    // Build Query
+    var query = new LookQuery();
+
+    // Search using "Tags"
+    var tags = new List<LookTag>();
+    var parameters = new List<string> { "designation", "variety", "region", "province", "country", "winery" };
+
+    foreach (var key in parameters)
+    {
+        var value = HttpContext.Current.Request[key];
+        if (value != null)
+        {
+            tags.Add(new LookTag(key + ":" + value));
+        }
+    }
+
+    if (tags.Any())
+    {
+        query.TagQuery = new Our.Umbraco.Look.TagQuery()
+        {
+            HasAllOr = new[] { tags.ToArray() }
+        };
+    }
+
+    // Search using "Raw Query"
+    if (!string.IsNullOrEmpty(q))
+    {
+        query.RawQuery = "description:" + q;
+    }
+    // Search using "Text Query" (see logic project, and include Events\ConfigureTextIndexing.cs)
+    // if (!string.IsNullOrEmpty(q))
+    // {
+    //    query.TextQuery = new Our.Umbraco.Look.TextQuery()
+    //    {
+    //        SearchText = q
+    //    };
+    // }
+    else
+    {
+        query.RawQuery = "nodeTypeAlias:" + alias;
+    }
+    
+
+    var results = query.Search();
+    var pagedResults = results.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+    
+    foreach (var result in pagedResults.ConvertSearchResultToPublishedContent(UmbracoContext.ContentCache))
+    {
+        @DisplayTeaser((WineReview) result)
+    }
+    
+    @Html.Partial("~/Views/Partials/Look/_Pagination.cshtml", results)
+}
+
+@helper DisplayTeaser(ContentModels.WineReview wineReview)
+{
+    <div class="column col-6 col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title h5">@wineReview.Name</div>
+                <div class="card-subtitle text-gray">@wineReview.Points / 100</div>
+            </div>
+            <div class="card-body">@wineReview.Description</div>
+            <div class="card-footer"><a class="btn btn-primary" href="@wineReview.Url">Read review</a></div>
+        </div>
+    </div>
+}

@@ -1,0 +1,158 @@
+﻿
+.look-sort {
+    float: right;
+    margin:15px;
+}
+
+.look-sort label {
+    display: block;
+    font-size: small;
+}
+
+
+.look-header {
+    margin: 35px 15px;
+}
+
+.look-header span {
+    float: left;
+}
+
+.look-header-icon {
+    font-size: 70px;
+}
+
+.look-header-title {
+    font-size: x-large;
+}
+
+.look-body {
+}
+
+/* Searcher */
+
+    .look-body dl {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    .look-body dt {
+        flex-basis: 20%;
+        padding: 2px 5px;
+        text-align: right;
+        background: #333;
+        color: #fff;
+    }
+
+    .look-body dd {
+        flex-basis: 70%;
+        flex-grow: 1;
+        margin: 0;
+        padding: 2px 3px;
+        border-bottom: 1px dashed lightgrey;
+    }
+
+    /*.look-body a {
+        text-decoration: underline;
+        color:blue;
+    }*/
+
+/* Rebuild (tree menu option) */
+.look-rebuild{
+
+    /*margin:20px;*/
+}
+
+
+
+/* Matches */
+
+.look-match-breaker {
+    font-size:x-large;
+    text-transform:uppercase;
+}
+
+.look-match {
+    margin: 0 0 10px 0;
+    clear: both;
+    background-color: #f3f3f5;
+}
+
+.look-match:hover {
+    cursor:pointer;
+    background-color:white;
+}
+
+.look-match.active {
+    cursor:default;
+    background-color:white;
+}
+
+.look-match.even {
+    
+}
+
+.look-match.odd {
+
+}
+
+
+.look-match-score {
+    float: right;
+    font-size: xx-small;
+}
+
+
+
+.look-match-type {
+    float: left;
+    position:relative;
+    margin-right: -15px;
+}
+
+.look-match-detached-icon {
+    position: absolute;
+    font-size: 25px;
+    line-height: 25px;
+    padding: 35px 25px;
+} 
+
+.look-match-icon {
+    font-size: 75px;
+    line-height: 75px;
+}
+
+.look-match-detached .look-match-icon {
+    color: lightgray;
+}
+
+
+.look-match-checkboxes {
+    float: left;
+}
+
+.look-match-details {
+    margin-left:30px;
+    float: left;
+}
+
+
+
+.look-banner {
+    border:solid 2px green;
+    text-align:center;
+    padding:30px;
+}
+
+/* Details */
+
+.look-details {
+    margin:0 10px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x:hidden;
+}
+
+.look-details ul {
+    list-style-type: none;
+}

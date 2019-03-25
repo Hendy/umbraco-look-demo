@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>It's Demo Time!</title>
+    <link rel="stylesheet" href="~/css/spectre.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="columns">
+        <div class="column col-12">
+            <h1>Umbraco Look Demo</h1>
+            @Umbraco.RenderMacro("Breadcrumb")
+        </div>
+    </div>
+    <div class="columns">
+        @RenderBody()
+    </div>
+    <div class="divider"></div>
+    <div class="columns">
+        <div class="column col-6">
+            <a href="https://github.com/Hendy/umbraco-look" target="_blank">Umbraco Look - Github</a>
+        </div>
+        <div class="column col-6">
+            This is a footer!
+        </div>
+    </div>
+</div>
+</body>
+</html>
