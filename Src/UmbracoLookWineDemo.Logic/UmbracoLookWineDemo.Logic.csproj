@@ -314,7 +314,6 @@
   <ItemGroup>
     <Compile Include="Controllers\ContentSurfaceController.cs" />
     <Compile Include="Events\ConfigureTagIndexing.cs" />
-    <Compile Include="Events\ConfigureTextIndexing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

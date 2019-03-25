@@ -20,7 +20,7 @@ namespace UmbracoLookWineDemo.Logic.Events
                 {
                     
                     // build up URL for the page, you would most likely want to set a domain url in your web.config
-                    var domain = "http://localhost:12000";
+                    var domain = "http://local.umbraco-look-wine-demo";
                     var url = $"{domain}/umbraco/Surface/ContentSurface/GetAsyncContent?nodeId={indexingContext.Item.Id}";
 
                     using (var client = new WebClient())
