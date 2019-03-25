@@ -197,9 +197,8 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Our.Umbraco.Look, Version=0.21.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Our.Umbraco.Look.0.21.0\lib\net45\Our.Umbraco.Look.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Our.Umbraco.Look, Version=0.29.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.Look.0.29.0\lib\net45\Our.Umbraco.Look.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>

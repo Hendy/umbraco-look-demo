@@ -1,0 +1,26 @@
+{
+  "javascript": [
+    "~/App_Plugins/Look/Controllers/CultureController.js",
+    "~/App_Plugins/Look/Controllers/DetailsController.js",
+    "~/App_Plugins/Look/Controllers/LocationsController.js",
+    "~/App_Plugins/Look/Controllers/MatchesController.js",
+    "~/App_Plugins/Look/Controllers/NodesController.js",
+    "~/App_Plugins/Look/Controllers/NodeTypeController.js",
+    "~/App_Plugins/Look/Controllers/RebuildController.js",
+    "~/App_Plugins/Look/Controllers/SearcherController.js",
+    "~/App_Plugins/Look/Controllers/SortController.js",
+    "~/App_Plugins/Look/Controllers/TagController.js",
+    "~/App_Plugins/Look/Controllers/TagGroupController.js",
+    "~/App_Plugins/Look/Controllers/TagsController.js",
+
+    "~/App_Plugins/Look/Directives/LazyLoadDirective.js",
+
+    "~/App_Plugins/Look/Services/ApiService.js",
+    "~/App_Plugins/Look/Services/MatchService.js",
+    "~/App_Plugins/Look/Services/SortService.js",
+    "~/App_Plugins/Look/Services/TreeService.js"
+  ],
+  "css": [
+    "~/App_Plugins/Look/Look.css"
+  ]
+}
