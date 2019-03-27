@@ -233,11 +233,11 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Our.Umbraco.Look, Version=0.29.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Our.Umbraco.Look.0.29.0\lib\net45\Our.Umbraco.Look.dll</HintPath>
+    <Reference Include="Our.Umbraco.Look, Version=0.30.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.Look.0.30.0\lib\net45\Our.Umbraco.Look.dll</HintPath>
     </Reference>
-    <Reference Include="Our.Umbraco.Look.BackOffice, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Our.Umbraco.Look.BackOffice.0.2.0\lib\net45\Our.Umbraco.Look.BackOffice.dll</HintPath>
+    <Reference Include="Our.Umbraco.Look.BackOffice, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.Look.BackOffice.0.3.0\lib\net45\Our.Umbraco.Look.BackOffice.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -352,7 +352,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\Look\BackOffice\LookTree\Culture.html" />
+    <Content Include="App_Plugins\Look\BackOffice\LookTree\Detached.html" />
     <Content Include="App_Plugins\Look\BackOffice\LookTree\Locations.html" />
     <Content Include="App_Plugins\Look\BackOffice\LookTree\Nodes.html" />
     <Content Include="App_Plugins\Look\BackOffice\LookTree\NodeType.html" />
@@ -364,7 +364,7 @@
     <Content Include="App_Plugins\Look\BackOffice\LookTree\Tag.Html" />
     <Content Include="App_Plugins\Look\BackOffice\LookTree\TagGroup.html" />
     <Content Include="App_Plugins\Look\BackOffice\LookTree\Tags.html" />
-    <Content Include="App_Plugins\Look\Controllers\CultureController.js" />
+    <Content Include="App_Plugins\Look\Controllers\DetachedController.js" />
     <Content Include="App_Plugins\Look\Controllers\DetailsController.js" />
     <Content Include="App_Plugins\Look\Controllers\LocationsController.js" />
     <Content Include="App_Plugins\Look\Controllers\MatchesController.js" />

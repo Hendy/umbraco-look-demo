@@ -16,7 +16,7 @@
             getViewDataForRebuild: getViewDataForRebuild,
             getViewDataForNodes: getViewDataForNodes,
             getViewDataForNodeType: getViewDataForNodeType,
-            getViewDataForCulture: getViewDataForCulture,
+            getViewDataForDetached: getViewDataForDetached,
             getViewDataForTags: getViewDataForTags,
             getViewDataForTagGroup: getViewDataForTagGroup,
             getViewDataForTag: getViewDataForTag,
@@ -25,7 +25,7 @@
             // get matches
             getMatches: getMatches,
             getNodeTypeMatches: getNodeTypeMatches,
-            getCultureMatches: getCultureMatches,
+            getDetachedMatches: getDetachedMatches,
             getTagMatches: getTagMatches,
             getLocationMatches: getLocationMatches,
 
@@ -78,13 +78,13 @@
             });
         }
 
-        function getViewDataForCulture(searcherName, lcid) {
+        function getViewDataForDetached(searcherName, nodeType) {
             return $http({
                 method: 'GET',
-                url: 'BackOffice/Look/Api/GetViewDataForCulture',
+                url: 'BackOffice/Look/Api/GetViewDataForDetached',
                 params: {
                     'searcherName': searcherName,
-                    'lcid': lcid
+                    'nodeType': nodeType
                 }
             });
         }
@@ -178,20 +178,21 @@
             return matches;
         }
 
-        function getCultureMatches(searcherName, lcid, sort, skip, take) {
+
+        function getDetachedMatches(searcherName, nodeType, sort, skip, take) {
 
             if (angular.isUndefined(searcherName)) { searcherName = ''; }
-            if (angular.isUndefined(lcid)) { { lcid = -1; } }
+            if (angular.isUndefined(nodeType)) { { nodeType = ''; } }
             if (angular.isUndefined(sort)) { sort = ''; }
             if (angular.isUndefined(skip)) { skip = 0; }
             if (angular.isUndefined(take)) { take = 0; }
 
             var matches = $http({
                 method: 'GET',
-                url: 'BackOffice/Look/Api/GetCultureMatches',
+                url: 'BackOffice/Look/Api/GetDetachedeMatches',
                 params: {
                     'searcherName': searcherName,
-                    'lcid': lcid,
+                    'nodeType': nodeType,
                     'sort': sort,
                     'skip': skip,
                     'take': take
