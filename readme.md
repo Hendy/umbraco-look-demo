@@ -5,7 +5,7 @@ Umbraco-Look-Wine-Demo
 
     restore nuget packages
 	run (e.g. navigate to site in browser)
-	follower umbraco installer
+	follow umbraco installer
 	install into a SQL database
 
 ## Develop
