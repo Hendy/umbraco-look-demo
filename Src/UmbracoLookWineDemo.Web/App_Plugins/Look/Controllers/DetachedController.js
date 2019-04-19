@@ -3,12 +3,11 @@
 
     angular
         .module('umbraco')
-        .controller('Look.BackOffice.NodeTypeController', NodeTypeController);
+        .controller('Look.BackOffice.DetachedController', DetachedController);
 
-    NodeTypeController.$inject = ['$scope', '$routeParams', '$q', 'Look.BackOffice.ApiService', 'Look.BackOffice.TreeService'];
+    DetachedController.$inject = ['$scope', '$routeParams', '$q', 'Look.BackOffice.ApiService', 'Look.BackOffice.TreeService'];
 
-    function NodeTypeController($scope, $routeParams, $q, apiService, treeService) {
-
+    function DetachedController($scope, $routeParams, $q, apiService, treeService) {
         // input params
         var parsedId = $routeParams.id.split('|');
 
@@ -18,11 +17,12 @@
         treeService.update([
             '-1',
             'searcher-' + $scope.searcherName,
-            'nodeType-' + $scope.searcherName + '|' + $scope.nodeType
+            'nodeType-' + $scope.searcherName + '|' + $scope.nodeType, // (this whole tree path patttern needs to be refactored)
+            'detached-' + $scope.searcherName + '|' + $scope.nodeType
         ]);
 
-        // get view data
-        apiService.getViewDataForNodeType($scope.searcherName, $scope.nodeType)
+        // view data
+        apiService.getViewDataForDetached($scope.searcherName, $scope.nodeType)
             .then(function (response) { $scope.viewData = response.data; });
 
         // filters
@@ -31,7 +31,7 @@
             var q = $q.defer();
 
             apiService
-                .getNodeTypeFilters($scope.searcherName, $scope.nodeType)
+                .getDetachedFilters($scope.searcherName, $scope.nodeType)
                 .then(function (response) {
                     q.resolve(response.data);
                 });
@@ -45,13 +45,14 @@
             var q = $q.defer();
 
             apiService
-                .getNodeTypeMatches($scope.searcherName, $scope.nodeType, filter, sort, skip, take)
+                .getDetachedMatches($scope.searcherName, $scope.nodeType, filter, sort, skip, take)
                 .then(function (response) {
                     q.resolve(response.data.matches);
                 });
 
             return q.promise;
         };
+
     }
 
 })();

@@ -29,13 +29,27 @@
             .getViewDataForTag($scope.searcherName, $scope.tagGroup, $scope.tagName)
             .then(function (response) { $scope.viewData = response.data; });
 
-        // matches
-        $scope.getMatches = function (sort, skip, take) {
+        // filters
+        $scope.getFilters = function () {
 
             var q = $q.defer();
 
             apiService
-                .getTagMatches($scope.searcherName, $scope.tagGroup, $scope.tagName, sort, skip, take)
+                .getTagFilters($scope.searcherName, $scope.tagGroup, $scope.tagName)
+                .then(function (response) {
+                    q.resolve(response.data);
+                });
+
+            return q.promise;
+        };
+
+        // matches
+        $scope.getMatches = function (filter, sort, skip, take) {
+
+            var q = $q.defer();
+
+            apiService
+                .getTagMatches($scope.searcherName, $scope.tagGroup, $scope.tagName, filter, sort, skip, take)
                 .then(function (response) {
 
                     // remove link to this tag from all matches (no need to render link to self)

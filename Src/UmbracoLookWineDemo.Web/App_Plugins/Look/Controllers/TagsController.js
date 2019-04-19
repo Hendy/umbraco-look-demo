@@ -22,13 +22,27 @@
         apiService.getViewDataForTags($scope.searcherName)
             .then(function (response) { $scope.viewData = response.data; });
 
-        // matches
-        $scope.getMatches = function (sort, skip, take) {
+        // filters
+        $scope.getFilters = function () {
 
             var q = $q.defer();
 
             apiService
-                .getTagMatches($scope.searcherName, undefined, undefined, sort, skip, take)
+                .getTagFilters($scope.searcherName, undefined, undefined)
+                .then(function (response) {
+                    q.resolve(response.data);
+                });
+
+            return q.promise;
+        };
+
+        // matches
+        $scope.getMatches = function (filter, sort, skip, take) {
+
+            var q = $q.defer();
+
+            apiService
+                .getTagMatches($scope.searcherName, undefined, undefined, filter, sort, skip, take)
                 .then(function (response) {
                     q.resolve(response.data.matches);
                 });

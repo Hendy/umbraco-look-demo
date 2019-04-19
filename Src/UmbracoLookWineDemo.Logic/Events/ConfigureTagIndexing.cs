@@ -13,7 +13,7 @@ namespace UmbracoLookWineDemo.Logic.Events
         /// </summary>
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            LookConfiguration.TagIndexer = indexingContext =>
+            LookConfiguration.DefaultTagIndexer = indexingContext =>
             {
                 var tags = new List<LookTag>();
 

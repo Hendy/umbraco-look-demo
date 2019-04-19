@@ -6,10 +6,10 @@
         .module('umbraco')
         .controller('Look.BackOffice.MatchesController', MatchesController);
 
-    MatchesController.$inject = ['$scope', 'Look.BackOffice.SortService', '$q', 'dialogService', 'Look.BackOffice.MatchService'];
+    MatchesController.$inject = ['$scope', 'Look.BackOffice.FiltersService', 'Look.BackOffice.SortService', '$q', 'dialogService', 'Look.BackOffice.MatchService'];
 
     // this controller will handle paging for more results
-    function MatchesController($scope, sortService, $q, dialogService, matchService) {
+    function MatchesController($scope, filtersService, sortService, $q, dialogService, matchService) {
 
         dialogService.closeAll(); // close all on load
 
@@ -30,7 +30,7 @@
             if (!$scope.finishedLoading && !$scope.currentlyLoading) {
                 $scope.currentlyLoading = true;
 
-                getMatches(sortService.sortOn, skip, take)
+                getMatches(filtersService.filterAlias, sortService.sortOn, skip, take) // TODO: pass in filters
                     .then(function (matches) { // success
 
                         var tryAgain = false;
@@ -67,7 +67,7 @@
             var enableNameBreaker = false;
 
             if (sortService.sortOn === 'Name') {
-                if (angular.isUndefined(lastMatch)) { // this is the first match, so show name breaker
+                if (angular.isUndefined(lastMatch)) { // first match
                     enableNameBreaker = true;
                 } else {
                     enableNameBreaker = currentMatch.name.charAt(0).toLowerCase() !== lastMatch.name.charAt(0).toLowerCase();
@@ -75,6 +75,28 @@
             }
 
             return enableNameBreaker;
+        };
+
+        $scope.dateBreaker = function (currentMatch, lastMatch) {
+
+            var enableDateBreaker = false;
+
+            if (sortService.sortOn === 'Date') {
+                if (angular.isUndefined(lastMatch)) { // first match
+                    enableDateBreaker = true;
+                } else {
+
+                    var currentDate = new Date(currentMatch.date);
+                    var currentDay = currentDate.getDate() + currentDate.getMonth() + currentDate.getFullYear();
+
+                    var lastDate = new Date(lastMatch.date);
+                    var lastDay = lastDate.getDate() + lastDate.getMonth() + lastDate.getFullYear();
+
+                    enableDateBreaker = currentDay !== lastDay;
+                }
+            }
+
+            return enableDateBreaker;
         };
 
         $scope.showDetails = function (match) {
@@ -87,6 +109,9 @@
             });
         };
 
+        $scope.isActive = function (match) {
+        return match === matchService.selectedMatch;
+        };
 
         $scope.reload = function () {
             dialogService.closeAll();
@@ -96,9 +121,8 @@
         //$scope.lazyLoad(); // trigger the lazy load to start - wasn't ready here
 
         // clear data, then re-trigger lazy-load
-        sortService.onChange(function () {
-            reset();
-        });
+        sortService.onChange(function () { reset(); });
+        filtersService.onChange(function () { reset(); });
 
         function reset() {
             skip = 0;

@@ -7,8 +7,12 @@
                 <p>{{match.name.charAt(0)}}</p>
             </div>
 
-            <div class="look-match" ng-class-even="'even'" ng-class-odd="'odd'" ng-click="showDetails(match)">
-                
+            <div class="look-match-breaker" ng-if="dateBreaker(match, matches[$index -1])">
+                <p> {{match.date | date:'d MMMM'}}</p>
+            </div>
+
+            <div class="look-match" ng-class="{'active': isActive(match)}" ng-class-even="'even'" ng-class-odd="'odd'" ng-click="showDetails(match)">
+                 
                 <span class="look-match-score">{{match.score}}</span>
 
                 
@@ -22,7 +26,11 @@
                     <div><span class="{{ match.hasTags ? 'icon-checkbox' : 'icon-checkbox-empty' }}">&nbsp;</span>Tags</div>
                     <div><span class="{{ match.hasLocation ? 'icon-checkbox' : 'icon-checkbox-empty' }}">&nbsp;</span>Location</div>
                 </div>
-
+                
+                <!--<div>
+                    <div><span>Alias: </span> {{match.alias}}</div>
+                    <div><span class="icon {{ match.aliasIcon }}">&nbsp;</span></div>
+                </div>-->
 
                 <div class="look-match-details">
                     <div><span>Name: </span> {{match.name}}</div>

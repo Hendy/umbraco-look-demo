@@ -24,13 +24,27 @@
                 $scope.viewData = response.data;
             });
 
-        // matches
-        $scope.getMatches = function (sort, skip, take) {
+        // filters
+        $scope.getFilters = function () {
 
             var q = $q.defer();
 
             apiService
-                .getLocationMatches($scope.searcherName, sort, skip, take)
+                .getLocationFilters($scope.searcherName)
+                .then(function (response) {
+                    q.resolve(response.data);
+                });
+
+            return q.promise;
+        };
+
+        // matches
+        $scope.getMatches = function (filter, sort, skip, take) {
+
+            var q = $q.defer();
+
+            apiService
+                .getLocationMatches($scope.searcherName, filter, sort, skip, take)
                 .then(function (response) {
                     q.resolve(response.data.matches);
                 });

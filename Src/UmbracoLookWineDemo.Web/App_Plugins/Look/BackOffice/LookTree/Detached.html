@@ -1,12 +1,13 @@
-﻿<div ng-controller="Look.BackOffice.NodesController">
+﻿<div ng-controller="Look.BackOffice.DetachedController">
 
     <div class="umb-panel-header">
 
         <ng-include src="'/App_Plugins/Look/BackOffice/LookTree/Partials/Sort.html'"></ng-include>
+        <ng-include src="'/App_Plugins/Look/BackOffice/LookTree/Partials/Filters.html'"></ng-include>                
 
         <div class="look-header">
-            <span class="icon icon-search look-header-icon">&nbsp;</span>
-            <span class="look-header-title">Nodes</span>
+            <span class="icon icon-out look-header-icon">&nbsp;</span>
+            <span class="look-header-title">{{ viewData.name }}</span>
         </div>
         
     </div>

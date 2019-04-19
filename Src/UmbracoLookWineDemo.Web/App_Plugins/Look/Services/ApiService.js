@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    // service where each method corresponds to a C# API controller method
+    // flat service layer where each method corresponds to a C# API controller method
     angular
         .module('umbraco')
         .factory('Look.BackOffice.ApiService', ApiService);
@@ -14,18 +14,24 @@
             // get viewData
             getViewDataForSearcher: getViewDataForSearcher,
             getViewDataForRebuild: getViewDataForRebuild,
-            getViewDataForNodes: getViewDataForNodes,
             getViewDataForNodeType: getViewDataForNodeType,
-            getViewDataForCulture: getViewDataForCulture,
+            getViewDataForDetached: getViewDataForDetached,
             getViewDataForTags: getViewDataForTags,
             getViewDataForTagGroup: getViewDataForTagGroup,
             getViewDataForTag: getViewDataForTag,
             getViewDataForLocations: getViewDataForLocations,
 
+            // get filters
+            getFilters: getFilters,
+            getNodeTypeFilters: getNodeTypeFilters,
+            getDetachedFilters: getDetachedFilters,
+            getTagFilters: getTagFilters,
+            getLocationFilters: getLocationFilters,
+
             // get matches
             getMatches: getMatches,
             getNodeTypeMatches: getNodeTypeMatches,
-            getCultureMatches: getCultureMatches,
+            getDetachedMatches: getDetachedMatches,
             getTagMatches: getTagMatches,
             getLocationMatches: getLocationMatches,
 
@@ -41,9 +47,7 @@
             return $http({
                 method: 'GET',
                 url: 'BackOffice/Look/Api/GetViewDataForSearcher',
-                params: {
-                    'searcherName': searcherName
-                }
+                params: { 'searcherName': searcherName }
             });
         }
 
@@ -51,19 +55,7 @@
             return $http({
                 method: 'GET',
                 url: 'BackOffice/Look/Api/GetViewDataForRebuild',
-                params: {
-                    'searcherName': searcherName
-                }
-            });
-
-        }
-        function getViewDataForNodes(searcherName) {
-            return $http({
-                method: 'GET',
-                url: 'BackOffice/Look/Api/GetViewDataForNodes',
-                params: {
-                    'searcherName': searcherName
-                }
+                params: { 'searcherName': searcherName }
             });
         }
 
@@ -78,13 +70,13 @@
             });
         }
 
-        function getViewDataForCulture(searcherName, lcid) {
+        function getViewDataForDetached(searcherName, nodeType) {
             return $http({
                 method: 'GET',
-                url: 'BackOffice/Look/Api/GetViewDataForCulture',
+                url: 'BackOffice/Look/Api/GetViewDataForDetached',
                 params: {
                     'searcherName': searcherName,
-                    'lcid': lcid
+                    'nodeType': nodeType
                 }
             });
         }
@@ -93,9 +85,7 @@
             return $http({
                 method: 'GET',
                 url: 'BackOffice/Look/Api/GetViewDataForTags',
-                params: {
-                    'searcherName': searcherName
-                }
+                params: { 'searcherName': searcherName }
             });
         }
 
@@ -126,17 +116,92 @@
             return $http({
                 method: 'GET',
                 url: 'BackOffice/Look/Api/GetViewDataForLocations',
+                params: { 'searcherName': searcherName }
+            });
+        }
+
+        // get filters ----------------------------------------
+
+        function getFilters(searcherName) {
+            if (angular.isUndefined(searcherName)) { searcherName = ''; }
+
+            var filters = $http({
+                method: 'GET',
+                url: 'BackOffice/Look/Api/GetFilters',
+                params: { 'searcherName': searcherName }
+            });
+
+            return filters;
+        }
+
+        function getNodeTypeFilters(searcherName, nodeType) {
+            if (angular.isUndefined(searcherName)) { searcherName = ''; }
+            if (angular.isUndefined(nodeType)) { { nodeType = ''; } }
+
+            var filters = $http({
+                method: 'GET',
+                url: 'BackOffice/Look/Api/GetNodeTypeFilters',
                 params: {
-                    'searcherName': searcherName
+                    'searcherName': searcherName,
+                    'nodeType': nodeType
                 }
             });
+
+            return filters;
+        }
+
+        function getDetachedFilters(searcherName, nodeType) {
+            if (angular.isUndefined(searcherName)) { searcherName = ''; }
+            if (angular.isUndefined(nodeType)) { { nodeType = ''; } }
+
+            var filters = $http({
+                method: 'GET',
+                url: 'BackOffice/Look/Api/GetDetachedFilters',
+                params: {
+                    'searcherName': searcherName,
+                    'nodeType': nodeType
+                }
+            });
+
+            return filters;
+        }
+
+        function getTagFilters(searcherName, tagGroup, tagName) {
+            if (angular.isUndefined(searcherName)) { searcherName = ''; }
+            if (angular.isUndefined(tagGroup)) { tagGroup = ''; }
+            if (angular.isUndefined(tagName)) { tagName = ''; }
+
+            var filters = $http({
+                method: 'GET',
+                url: 'BackOffice/Look/Api/GetTagFilters',
+                params: {
+                    'searcherName': searcherName,
+                    'tagGroup': tagGroup,
+                    'tagName': tagName
+                }
+            });
+
+            return filters;
+        }
+
+        function getLocationFilters(searcherName) {
+            if (angular.isUndefined(searcherName)) { searcherName = ''; }
+
+            var filters = $http({
+                method: 'GET',
+                url: 'BackOffice/Look/Api/GetLocationFilters',
+                params: { 'searcherName': searcherName }
+            });
+
+            return filters;
         }
 
         // get matches ----------------------------------------
 
-        function getMatches(searcherName, sort, skip, take) {
+        function getMatches(searcherName, filter, sort, skip, take) {
 
             if (angular.isUndefined(searcherName)) { searcherName = ''; }
+            if (angular.isUndefined(filter)) { filter = ''; }
             if (angular.isUndefined(sort)) { sort = ''; }
             if (angular.isUndefined(skip)) { skip = 0; }
             if (angular.isUndefined(take)) { take = 0; }
@@ -146,6 +211,7 @@
                 url: 'BackOffice/Look/Api/GetMatches',
                 params: {
                     'searcherName': searcherName,
+                    'filter': filter,
                     'sort': sort,
                     'skip': skip,
                     'take': take
@@ -155,10 +221,11 @@
             return matches;
         }
 
-        function getNodeTypeMatches(searcherName, nodeType, sort, skip, take) {
+        function getNodeTypeMatches(searcherName, nodeType, filter, sort, skip, take) {
 
             if (angular.isUndefined(searcherName)) { searcherName = ''; }
             if (angular.isUndefined(nodeType)) { { nodeType = ''; }}
+            if (angular.isUndefined(filter)) { filter = ''; }
             if (angular.isUndefined(sort)) { sort = ''; }
             if (angular.isUndefined(skip)) { skip = 0; }
             if (angular.isUndefined(take)) { take = 0; }
@@ -169,6 +236,7 @@
                 params: {
                     'searcherName': searcherName,
                     'nodeType': nodeType,
+                    'filter': filter,
                     'sort': sort,
                     'skip': skip,
                     'take': take
@@ -178,20 +246,23 @@
             return matches;
         }
 
-        function getCultureMatches(searcherName, lcid, sort, skip, take) {
+
+        function getDetachedMatches(searcherName, nodeType, filter, sort, skip, take) {
 
             if (angular.isUndefined(searcherName)) { searcherName = ''; }
-            if (angular.isUndefined(lcid)) { { lcid = -1; } }
+            if (angular.isUndefined(nodeType)) { { nodeType = ''; } }
+            if (angular.isUndefined(filter)) { filter = ''; }
             if (angular.isUndefined(sort)) { sort = ''; }
             if (angular.isUndefined(skip)) { skip = 0; }
             if (angular.isUndefined(take)) { take = 0; }
 
             var matches = $http({
                 method: 'GET',
-                url: 'BackOffice/Look/Api/GetCultureMatches',
+                url: 'BackOffice/Look/Api/GetDetachedMatches',
                 params: {
                     'searcherName': searcherName,
-                    'lcid': lcid,
+                    'nodeType': nodeType,
+                    'filter': filter,
                     'sort': sort,
                     'skip': skip,
                     'take': take
@@ -201,11 +272,12 @@
             return matches;
         }
 
-        function getTagMatches(searcherName, tagGroup, tagName, sort, skip, take) {
+        function getTagMatches(searcherName, tagGroup, tagName, filter, sort, skip, take) {
 
             if (angular.isUndefined(searcherName)) { searcherName = ''; }
             if (angular.isUndefined(tagGroup)) { tagGroup = ''; }
             if (angular.isUndefined(tagName)) { tagName = ''; }
+            if (angular.isUndefined(filter)) { filter = ''; }
             if (angular.isUndefined(sort)) { sort = ''; }
             if (angular.isUndefined(skip)) { skip = 0; }
             if (angular.isUndefined(take)) { take = 0; }
@@ -217,6 +289,7 @@
                     'searcherName': searcherName,
                     'tagGroup': tagGroup,
                     'tagName': tagName,
+                    'filter': filter,
                     'sort': sort,
                     'skip': skip,
                     'take': take
@@ -226,9 +299,10 @@
             return matches;
         }
 
-        function getLocationMatches(searcherName, sort, skip, take) {
+        function getLocationMatches(searcherName, filter, sort, skip, take) {
 
             if (angular.isUndefined(searcherName)) { searcherName = ''; }
+            if (angular.isUndefined(filter)) { filter = ''; }
             if (angular.isUndefined(sort)) { sort = ''; }
             if (angular.isUndefined(skip)) { skip = 0; }
             if (angular.isUndefined(take)) { take = 0; }
@@ -238,6 +312,7 @@
                 url: 'BackOffice/Look/Api/GetLocationMatches',
                 params: {
                     'searcherName': searcherName,
+                    'filter': filter,
                     'sort': sort,
                     'skip': skip,
                     'take': take
@@ -253,9 +328,7 @@
             return $http({
                 method: 'POST',
                 url: 'BackOffice/Look/Api/RebuildIndex',
-                params: {
-                    'indexerName': indexerName
-                }
+                params: { 'indexerName': indexerName }
             });
         }
 
@@ -263,9 +336,7 @@
             return $http({
                 method: 'GET',
                 url: 'BackOffice/Look/Api/GetConfigurationData',
-                params: {
-                    'searcherName': searcherName
-                }
+                params: { 'searcherName': searcherName }
             });
         }
     }
